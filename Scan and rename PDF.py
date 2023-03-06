@@ -48,7 +48,11 @@ for dirpath, dirnames, filenames in os.walk(path):
                 elif re.search(r"X =(.*)",text): #layout Inpijn CPT 1
                     new_file = re.search(r"Sondering:(.*)", text).group().split()[-1]
                     new_file = os.path.join(dirpath, new_file+".pdf")
-                    os.rename(current_file, new_file)
+                    try:
+                        os.rename(current_file, new_file)                
+                    except:
+                        new_file = re.search(r"Sondering:(.*)", text).group().split()[-1]
+                        print(f"PDF: {file} \tID: {new_file} is skipped")
                 elif re.search(r"X:(.*)",text): #layout Inpijn CPT 2
                     new_file = re.search(r"Sondering:(.*)", text).group(1).strip()
                     new_file = os.path.join(dirpath, new_file+".pdf")
